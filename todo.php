@@ -55,7 +55,8 @@ function get_input($upper = FALSE)
 }
 
 // The loop!
-do {
+do 
+{
     // Iterate through list items
     echo list_items($items);
     // Show the menu options
@@ -66,30 +67,54 @@ do {
     $input = get_input(true);
 
     // Check for actionable input
-    if ($input == 'N') {
+    if ($input == 'N') 
+    {
         // Ask for entry
         echo 'Enter item: ';
-
         // Add entry to list array
-            $items[] = get_input(false);
-        } elseif ($input == 'S') {
-        // Ask for entry
+        $NewItem = get_input(false);
+        
+        // ask how to enter new item
+        echo "Add to (B)eginnng or (E)nd" . PHP_EOL;
+            $BegOrEnd = get_input(true);
+            if($BegOrEnd == 'B')
+              {
+                array_unshift($items, $NewItem);
+              }
+              elseif ($BegOrEnd == 'E')
+              {
+                array_push($items, $NewItem);
+              }
+        
+    } elseif ($input == 'S') 
+        {
+            // Ask for entry
             $items = sort_menu($items);
 
-        } elseif ($input == 'R') {
-
-        // Remove which item?
+        } elseif ($input == 'R') 
+          {
+            // Remove which item?
             echo 'Enter item number to remove: ';
 
-        // Get array key
+            // Get array key
             $key = get_input(false);
 
-        // decreases key before removing item
+            // decreases key before removing item
             $key2 = $key - 1;
 
-        // Remove from array
+            // Remove from array
             unset($items[$key2]);
-        } 
+          
+          } elseif ($input == 'F')
+    {
+            array_shift($items);
+    
+    }       elseif ($input == 'L')
+
+    {
+            array_pop($items);
+    }     
+            
     
     // Exit when input is (Q)uit
 } while ($input != 'Q');
