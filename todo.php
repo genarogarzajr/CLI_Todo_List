@@ -3,6 +3,18 @@
 // Create array to hold list of todo items
 $items = array();
 
+// adds list.txt to current tod list
+//function addtolist()
+
+
+
+
+
+
+
+
+
+
 // List array items formatted for CLI
 function list_items($list){
 
@@ -60,14 +72,25 @@ do
     // Iterate through list items
     echo list_items($items);
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
+    echo '(O)pen, (N)ew item, (R)emove item, (S)ort, (Q)uit : ';
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines
     $input = get_input(true);
 
     // Check for actionable input
-    if ($input == 'N') 
+    if ($input == 'O') 
+    {
+      $filename = "data/list.txt";
+      $filesize = filesize($filename);
+      $handle   = fopen($filename, "r");
+      $todo_string = trim(fread($handle, $filesize));
+      //echo $todo_string;
+      $list_array = explode("\n", $todo_string);
+      $items = array_merge($items,$list_array);
+      fclose($handle)
+    }
+      elseif ($input == 'N') 
     {
         // Ask for entry
         echo 'Enter item: ';
@@ -87,11 +110,12 @@ do
               }
         
     } elseif ($input == 'S') 
-        {
+          {
             // Ask for entry
             $items = sort_menu($items);
 
-        } elseif ($input == 'R') 
+          } elseif ($input == 'R') 
+          
           {
             // Remove which item?
             echo 'Enter item number to remove: ';
@@ -105,15 +129,18 @@ do
             // Remove from array
             unset($items[$key2]);
           
+            //hidden input to remove first item
           } elseif ($input == 'F')
-    {
+          
+          {
             array_shift($items);
-    
-    }       elseif ($input == 'L')
+            
+            //hidden input to remove last item
+          } elseif ($input == 'L')
 
-    {
+          {
             array_pop($items);
-    }     
+          }     
             
     
     // Exit when input is (Q)uit
